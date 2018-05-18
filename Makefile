@@ -6,7 +6,7 @@
 #
 # Inlude files are in sub-directory include, accessed with $(IDIR)
 # Object files are in sub-directory obj, accessed with $(ODIR)
-# Lib files are in sub-directory lib, accessed with $(LDIR)
+# Lib files are in sub-directory lib, accessed with $(LDIR) (commented for now (commented for now)
 #
 # Author: Pierre-Louis Palant for CRoCS muni
 
@@ -15,11 +15,11 @@ CC=arm-buildroot-linux-gnueabihf-gcc
 CFLAGS=-I$(IDIR)
 
 ODIR=obj
-LDIR =../lib
+#LDIR =../lib
 
 # Libraries to specify to gcc (ex: -lm for math, -lpthread, etc.)
 
-LIBS=-lm
+#LIBS=-lm
 
 _DEPS = hellomake.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
@@ -32,7 +32,7 @@ $(ODIR)/%.o: %.c $(DEPS)
 		$(CC) -c -o $@ $< $(CFLAGS)
 
 hellomake: $(OBJ)
-		gcc -o $@ $^ $(CFLAGS) $(LIBS)
+		gcc -o $@ $^ $(CFLAGS) #$(LIBS)
 
 .PHONY: clean
 
