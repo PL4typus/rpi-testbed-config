@@ -17,8 +17,7 @@ rpi_config_file=$2
 
 for rpi in $(cat "$rpi_config_file")
 do
-    scp "$exec_file" pi@"$rpi":/home/pi/
-    ssh pi@"$rpi" "./$exec_file"
+    scp "$exec_file" pi@"$rpi":/home/pi/ && ssh pi@"$rpi" "./$exec_file"
 done
 
 exit 0
