@@ -1,0 +1,31 @@
+#!/usr/bin/env python
+
+#This python script is intended to be ;ore error friendly and easier to use than the bash script
+
+import subprocess
+import sys
+
+if (len(sys.argv) != 3):
+  print("Usage: python3.5 upload.py </path/to/exec> </path/to/rpi_addr/file>")
+  sys.exit(2)
+if ( not os.path.isfile(sys.argv[1]) ):
+  print("Path to executable is not correct")
+  sys.exit(3)
+if ( not os.path.isfile(sys.argv[2]) ):
+  print("Path to address file is not correct")
+  sys.exit(3)
+
+
+
+with open(sys.argv[2],'r') as rpi_file:
+    try:
+      for line in f:
+        d[i]  = line.split()
+
+    except IOError:
+
+
+
+
+
+
