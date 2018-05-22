@@ -4,6 +4,7 @@
 
 import subprocess
 import sys
+import os
 
 if (len(sys.argv) != 3):
   print("Usage: python3.5 upload.py </path/to/exec> </path/to/rpi_addr/file>")
@@ -19,11 +20,15 @@ if ( not os.path.isfile(sys.argv[2]) ):
 
 with open(sys.argv[2],'r') as rpi_file:
     try:
-      for line in f:
-        d[i]  = line.split()
+      for addr in rpi_file:
+        p = subprocess.Popen(["scp", sys.argv[1], "pi@"+addr+":/home/pi"])
+        sts = os.waitpid(p.pid, 0)
+        p = subprocess.Popen(["ssh", "pi@"+addr,"'/home/pi/"+sys.argv[1]+"'"])
+        sts = os.waitpid(p.pid, 0)
 
-    except IOError:
-
+    except:
+      print("Unexpected error")
+      sys.exit(1)
 
 
 
