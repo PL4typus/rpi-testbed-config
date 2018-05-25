@@ -23,9 +23,9 @@ with open(sys.argv[2],'r') as rpi_file:
       for addr in rpi_file:
         p = subprocess.Popen(["scp", sys.argv[1], "pi@"+addr+":/home/pi"])
         sts = os.waitpid(p.pid, 0)
-        p = subprocess.Popen(["ssh", "pi@"+addr,"'/home/pi/"+sys.argv[1]+"'"])
+        p = subprocess.Popen(["ssh", "pi@"+addr,"'/home/pi/"+sys.argv[1]+"'i &"])
         sts = os.waitpid(p.pid, 0)
-
+        #(ps aux | grep '[p]ython csp_build.py' | awk '{print $2}')
     except:
       print("Unexpected error")
       sys.exit(1)
