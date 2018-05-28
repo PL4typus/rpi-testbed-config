@@ -21,8 +21,15 @@ with open(sys.argv[2],'r') as rpi_file:
       for addr in rpi_file:
         print("Terminating previous program... "+addr)
         # Kill the previous program using awk magic
-        p = subprocess.Popen(["ssh", "pi@"+addr.rstrip()," 'kill -9 \$(ps aux | grep '[a].out' | awk '{print \$2}')'"],shell=True)
-        sts = os.waitpid(p.pid, 0)
+        sshp=subprocess.Popen(['ssh',
+                              "-T",
+                              "pi@"+addr],
+                              stdin=subprocess.PIPE,
+                              stdout = subprocess.PIPE,
+                              universal_newlines=True,
+                              bufsize=0)
+        sshp.stdin.write("kill -9 \$(ps aux|grep '[a].out'|awk '{print \$2}')")
+        sshp.stdin.close()
         # Transfer the binary and rename as a.out
         print("Transfering the new executable as a.out..."+addr)
         p = subprocess.Popen(["scp", sys.argv[1], "pi@"+addr.rstrip()+":/home/pi/bin/a.out"])
