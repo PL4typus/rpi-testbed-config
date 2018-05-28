@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-#This python script is intended to be ;ore error friendly and easier to use than the bash script
-
 import subprocess
 import sys
 import os
@@ -17,17 +15,25 @@ if ( not os.path.isfile(sys.argv[2]) ):
   sys.exit(3)
 
 
-
+# Reading the list of addresses
 with open(sys.argv[2],'r') as rpi_file:
     try:
       for addr in rpi_file:
-        p = subprocess.Popen(["scp", sys.argv[1], "pi@"+addr+":/home/pi"])
+        print("Terminating previous program... "+addr)
+        # Kill the previous program using awk magic
+        p = subprocess.Popen(["ssh", "pi@"+addr.rstrip()," 'kill -9 \$(ps aux | grep '[a].out' | awk '{print \$2}')'"],shell=True)
         sts = os.waitpid(p.pid, 0)
-        p = subprocess.Popen(["ssh", "pi@"+addr,"'/home/pi/"+sys.argv[1]+"'i &"])
+        # Transfer the binary and rename as a.out
+        print("Transfering the new executable as a.out..."+addr)
+        p = subprocess.Popen(["scp", sys.argv[1], "pi@"+addr.rstrip()+":/home/pi/bin/a.out"])
         sts = os.waitpid(p.pid, 0)
-        #(ps aux | grep '[p]ython csp_build.py' | awk '{print $2}')
-    except:
-      print("Unexpected error")
+        # Execute the binqry in the bqckground
+        print("Running the new executable as a.out..."+addr)
+        p = subprocess.Popen(["ssh", "pi@"+addr.rstrip(),"'/home/pi/bin/a.out'"])
+        #sts = os.waitpid(p.pid, 0)
+        #Removed becaues otherwise script waits for termination of a.out
+    except Exception as e:
+      print("Unexpected error: "+str(e))
       sys.exit(1)
 
 
