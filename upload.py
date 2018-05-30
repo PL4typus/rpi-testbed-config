@@ -26,7 +26,6 @@ class Uploader(Thread):
     #sts = os.waitpid(p.pid, 0)
     #Removed becaues otherwise script waits for termination of a.out
 
-
 if (len(sys.argv) != 3):
   print("Usage: python3.5 upload.py </path/to/exec> </path/to/rpi_addr/file>")
   sys.exit(2)
@@ -45,8 +44,7 @@ with open(sys.argv[2],'r') as rpi_file:
     for addr in rpi_file:
       uploaders[addr] = Uploader(addr)
       uploaders[addr].start()
-    t=threading.main_thread()
-    t.join()
+
   except Exception as e:
     print("Unexpected error: "+str(e))
 sys.exit(1)
