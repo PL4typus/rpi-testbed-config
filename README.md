@@ -23,12 +23,27 @@ Simple as that. You need to be in the src directory and to set up a few things i
 
 ## Ansible playbook usage:
 
-An Ansible playbook is provided in the tools repository. You may use this to update, upgrade, install packages to all the testbed. It will also clone and compile the intel-iot library used to make blueetooth applications. To use it:
+You have 3 different playbooks there. 
+
+###The ansible role is for generating a ssh config file to be able to use hostnames with ssh (i.e. ssh berry17 instead of ssh pi@IPADDR).
+
+Please refer to the relevant documentation to use it. 
+
+###install.yml configures a number of parameters: ssh, dependencies, etc.
 
     ansible-playbook install.yml -i hosts 
 
-This will run aptitude update and safe-upgrade on all RPIs in the hosts file, as well as installing dependencies and the cloning/compiling/installing Intel IoT library from source.
+This will run aptitude update and safe-upgrade on all RPIs in the hosts file, as well as installing dependencies and the cloning/compiling/installing Intel IoT library from source. 
+
+This will also generate and distribute config files for ssh as well as privatekeys
+
+### wifi_setup
+
+    ansible-playbook wifi_setup.yml -i hosts
+
+This will configure the wifi on all raspberries.
+
 
 Ansible playbooks are supposed to be idempotent, giving the same output regardless of the number of times they are run. They are written in YAML so the syntax is pretty straightforward and the documentation is very complete.
 
-As you can see the playbook is using a hosts file. To use the playbook, the hosts file needs to be filled with the IP addresses of the RPI, and some other options. It is good practice to share ssh keys between the server and the hosts in order to simplify connections. The hosts can be organized in groups, please refer to the documentation to use them.
+As you can see the playbook is using a hosts file. To use the playbook, the hosts file needs to be filled with the IP addresses of the RPI, and some other options. It is mandatory to share ssh keys between the server and the hosts in order to simplify connections. The hosts can be organized in groups, please refer to the documentation to use them.
