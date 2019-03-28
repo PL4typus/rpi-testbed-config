@@ -1,0 +1,3 @@
+[submodule "testbed-ansible"]
+	path = testbed-ansible
+	url = git@github.com:PL4typus/testbed-ansible.git
